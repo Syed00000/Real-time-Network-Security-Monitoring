@@ -1,0 +1,50 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Virtual environment
+venv/
+.env/
+env/
+.venv/
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs & temp
+*.log
+*.tmp
+*.bak
+
+# Build / Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Jupyter (if you experiment)
+.ipynb_checkpoints/
+
+# PyInstaller / cx_Freeze outputs
+*.spec
+
+# Test / Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Assets (optional - if they’re big / generated)
+# Uncomment if you don’t want icons tracked
+assets/
+data/
+assets/icons/*.png
