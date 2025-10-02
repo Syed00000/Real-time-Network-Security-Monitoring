@@ -1,9 +1,0 @@
-PyQt6
-pandas
-numpy
-scikit-learn
-lightgbm
-flask
-requests
-pyshark
-joblib

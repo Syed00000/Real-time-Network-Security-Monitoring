@@ -1,0 +1,2 @@
+# Docker orchestration
+version: '3.8'

@@ -1,69 +1,73 @@
-# AI-Driven Next-Generation Firewall (Prototype)
+# AI-NGFW (AI-Powered Next Generation Firewall)
 
-## Problem Statement
-**ID: 25160**  
-**Title: AI-Driven Next-Generation Firewall for Dynamic Threat Detection and Zero Trust Implementation**
+An advanced AI-powered network security solution that combines machine learning, federated learning, and Zero Trust architecture to provide real-time threat detection and automated response capabilities.
 
-## Overview
-This project is a **prototype implementation** of an intelligent firewall for SIH.  
-It showcases the design of an AI-powered NGFW that integrates anomaly detection, adaptive policy enforcement, Zero Trust principles, and automation (SOAR).
+## Features
 
-⚠️ **Note:** This is a **demo prototype**. Backend detection logic and enforcement are stubs. The focus is on **architecture + UI**.
+- **Real-time Packet Capture & Analysis**: Advanced traffic monitoring using Scapy
+- **AI-Powered Threat Detection**: Machine learning models including Isolation Forest and LSTM-CNN
+- **Federated Learning**: Collaborative threat intelligence across distributed networks
+- **Zero Trust Security**: Dynamic risk scoring and adaptive access controls
+- **Automated Response**: Intelligent threat blocking and response playbooks
+- **Interactive Dashboard**: Real-time visualization and monitoring interface
+- **Encrypted Traffic Analysis**: Advanced techniques for analyzing encrypted communications
 
----
+## Architecture
 
-## Features (Demo)
-- **Dashboard UI** (PyQt6)
-  - Displays active flows with anomaly scores & actions
-  - Buttons to allow/block traffic
-- **Alerts Tab** — lists recent alerts
-- **Policies Tab** — shows firewall rules
-- **Logs Tab** — shows system events
-- **Backend Stubs**
-  - `detect_service.py`: placeholder for anomaly detection
-  - `enforcer_service.py`: placeholder for policy enforcement
-  - `soar_service.py`: placeholder for automation workflows
-- **Modular Structure**
-  - Easy to expand with real ML models, packet parsers, and federated learning
+### Backend (Python/FastAPI)
+- Packet capture and traffic analysis
+- ML-based anomaly detection
+- Federated learning coordination
+- Zero Trust risk assessment
+- Automated threat response
+- RESTful API and WebSocket endpoints
 
----
+### Frontend (React/Vite)
+- Real-time dashboard
+- Threat visualization components
+- Performance metrics panels
+- Interactive security controls
 
-## Folder Structure
-FireBarrier/
-├─ data/ # sample datasets
-├─ docs/ # diagrams, PPT
-├─ models/ # ML models (future)
-├─ services/ # backend service stubs
-├─ ui/ # PyQt6 UI
-├─ utils/ # helper scripts
-├─ requirements.txt # dependencies
-└─ README.md
+### Infrastructure
+- Docker containerization
+- Automated setup scripts
+- Comprehensive testing suite
+- Detailed documentation
 
+## Quick Start
 
----
+1. **Setup Environment**
+   ```bash
+   ./scripts/setup.sh
+   ```
 
-## Future Scope
-- **Traffic Analysis**
-  - Parse PCAPs with `pyshark` or `Zeek`
-  - Extract TLS/QUIC metadata and flow stats
-- **AI/ML Models**
-  - IsolationForest/DBSCAN for anomalies
-  - CNN/LSTM for traffic patterns
-  - Federated learning for distributed updates
-- **Zero Trust**
-  - Risk-based access control
-  - Device/user verification
-- **SOAR Automation**
-  - Auto-block malicious IPs
-  - Integration with SIEM tools
-- **Performance**
-  - Optimized packet processing pipelines
-  - Benchmarks at enterprise scale
+2. **Start Backend**
+   ```bash
+   ./scripts/run_backend.sh
+   ```
 
----
+3. **Start Frontend**
+   ```bash
+   ./scripts/run_frontend.sh
+   ```
 
-## Installation
-```bash
-git clone https://github.com/example/ai_ngfw_prototype
-cd ai_ngfw_prototype
-pip install -r requirements.txt
+4. **Access Dashboard**
+   Open your browser to `http://localhost:3000`
+
+## Documentation
+
+- [Setup Instructions](docs/SETUP.md)
+- [API Documentation](docs/API.md)
+- [Demo Guide](docs/DEMO.md)
+
+## License
+
+See [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Please read our contributing guidelines before submitting pull requests.
+
+## Security
+
+For security vulnerabilities, please email security@firebarrier.ai instead of using the issue tracker.
