@@ -1,11 +1,11 @@
 from scapy.all import sniff, IP, TCP, UDP, conf
 import threading
 import time
-from models.anomaly_detector import ml_detector  # NEW
+from models.anomaly_detector import ml_detector
+from security.ip_blocker import ip_blocker  # NEW
 
 # Use Layer 3 socket for Windows
 conf.L3socket = conf.L3socket
-
 
 def simple_threat_check(packet_info):
     """Check if packet looks suspicious (Rule-based)"""
@@ -19,16 +19,18 @@ def simple_threat_check(packet_info):
     
     return False
 
-
 class PacketCapture:
     def __init__(self):
         self.total_packets = 0
         self.packet_list = []
         self.threat_list = []
         self.total_threats = 0
-        self.ml_threats = 0  # NEW: ML-detected threats
+        self.ml_threats = 0
         self.is_running = False
-        self.training_done = False  # NEW: Track if ML training is done
+        self.training_done = False
+        self.auto_block_enabled = True  # NEW: Enable auto-blocking
+        self.threat_threshold = 3  # NEW: Block IP after 3 threats
+        self.ip_threat_count = {}  # NEW: Track threats per IP
         
     def packet_callback(self, packet):
         """Process each captured packet"""
@@ -70,13 +72,28 @@ class PacketCapture:
                 self.ml_threats += 1
         
         # Mark as threat if either method flags it
-        packet_info['threat'] = bool(rule_threat or ml_threat)  # Convert to Python bool
+        packet_info['threat'] = bool(rule_threat or ml_threat)
         packet_info['detection_method'] = 'Rule-based' if rule_threat else ('ML' if ml_threat else 'Safe')
-
+        packet_info['blocked'] = False  # NEW: Track if IP was blocked
         
         if packet_info['threat']:
             self.total_threats += 1
-            print(f"🚨 THREAT #{self.total_threats} [{packet_info['detection_method']}]: {packet_info.get('src_ip')} -> {packet_info.get('dst_ip')} Port: {packet_info.get('dst_port')}")
+            src_ip = packet_info.get('src_ip')
+            
+            # Track threats per IP
+            if src_ip and src_ip not in ['127.0.0.1', 'localhost']:  # Don't block localhost
+                self.ip_threat_count[src_ip] = self.ip_threat_count.get(src_ip, 0) + 1
+                
+                # Auto-block if threshold reached
+                if self.auto_block_enabled and self.ip_threat_count[src_ip] >= self.threat_threshold:
+                    if not ip_blocker.is_blocked(src_ip):
+                        # Only block external IPs (not local network)
+                        if not src_ip.startswith('192.168.') and not src_ip.startswith('10.'):
+                            if ip_blocker.block_ip(src_ip):
+                                packet_info['blocked'] = True
+                                print(f"🚫 AUTO-BLOCKED: {src_ip} (reached {self.ip_threat_count[src_ip]} threats)")
+            
+            print(f"🚨 THREAT #{self.total_threats} [{packet_info['detection_method']}]: {src_ip} -> {packet_info.get('dst_ip')} Port: {packet_info.get('dst_port')}")
             
             self.threat_list.append(packet_info)
             
@@ -95,7 +112,8 @@ class PacketCapture:
                 self.training_done = True
         
         if self.total_packets % 10 == 0:
-            print(f"📦 Captured {self.total_packets} packets | ML Threats: {self.ml_threats}")
+            blocked_count = len(ip_blocker.get_blocked_ips())
+            print(f"📦 Captured {self.total_packets} packets | ML Threats: {self.ml_threats} | Blocked IPs: {blocked_count}")
     
     def start_capture(self):
         """Start capturing packets in background"""
