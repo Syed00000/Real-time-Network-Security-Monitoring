@@ -230,7 +230,7 @@ const Analytics = () => {
             </CardHeader>
             <CardContent className="focus:outline-none">
               <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
+                <PieChart style={{ cursor: 'default' }}>
                   <Pie
                     data={threatDistribution}
                     cx="50%"
@@ -243,7 +243,15 @@ const Analytics = () => {
                     style={{ outline: 'none' }}
                   >
                     {threatDistribution.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} style={{ outline: 'none' }} />
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={entry.color} 
+                        style={{ 
+                          outline: 'none',
+                          filter: 'none',
+                          opacity: 1
+                        }}
+                      />
                     ))}
                   </Pie>
                   <Tooltip 
