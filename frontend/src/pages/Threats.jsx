@@ -39,7 +39,7 @@ const Threats = () => {
   const filteredThreats = threats.filter(threat => {
     const matchesFilter = filter === 'all' || 
       (filter === 'ml' && threat.detection_method === 'ML') ||
-      (filter === 'rule' && threat.detection_method === 'RULE') ||
+      (filter === 'rule' && (threat.detection_method === 'Rule' || threat.detection_method === 'RULE')) ||
       (filter === 'blocked' && threat.blocked)
     
     const matchesSearch = !searchTerm || 
@@ -113,7 +113,7 @@ const Threats = () => {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-orange-500">
-              {threats.filter(t => t.detection_method === 'RULE').length}
+              {threats.filter(t => t.detection_method === 'Rule' || t.detection_method === 'RULE').length}
             </div>
           </CardContent>
         </Card>
