@@ -255,14 +255,7 @@ const Analytics = () => {
                     ))}
                   </Pie>
                   <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#1e293b', 
-                      border: '1px solid #475569', 
-                      borderRadius: '8px',
-                      color: '#f1f5f9',
-                      outline: 'none',
-                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-                    }}
+                    contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', outline: 'none' }}
                     labelStyle={{ color: '#94a3b8' }}
                     wrapperStyle={{ outline: 'none' }}
                   />
